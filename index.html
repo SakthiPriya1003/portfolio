@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sakthi Priya G — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #7c6ef5;
+    --accent2: #e84393;
+    --accent3: #00d4aa;
+    --text: #f0f0f8;
+    --muted: #8888aa;
+    --heading: 'Syne', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--heading);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(124,110,245,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(0,212,170,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent3);
+  }
+  h1 {
+    font-family: var(--heading);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  h1 .line2 { color: var(--accent); }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.35s forwards;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #9182f7; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.6s 0.65s forwards;
+  }
+  .stat-num {
+    font-family: var(--heading);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; position: relative; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: var(--heading);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-weight: 300; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    transition: border-color 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); }
+  .skill-cat {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 6px;
+  }
+  .skill-items { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(124,110,245,0.2);
+  }
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .timeline-date {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .timeline-company {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 2px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+  .timeline-title {
+    font-family: var(--heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .timeline-desc { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .project-card:hover { border-color: rgba(124,110,245,0.4); transform: translateY(-3px); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(124,110,245,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(124,110,245,0.2);
+  }
+  .project-title {
+    font-family: var(--heading);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .project-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.65; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(124,110,245,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(124,110,245,0.2);
+  }
+  .tag.green { background: rgba(0,212,170,0.1); color: var(--accent3); border-color: rgba(0,212,170,0.2); }
+  .tag.pink { background: rgba(232,67,147,0.1); color: var(--accent2); border-color: rgba(232,67,147,0.2); }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .achievement-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all 0.2s;
+  }
+  .achievement-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .achievement-rank {
+    font-family: var(--heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    min-width: 48px;
+    line-height: 1;
+  }
+  .achievement-rank.gold { color: #f5c842; }
+  .achievement-rank.silver { color: #c0c0c0; }
+  .achievement-rank.teal { color: var(--accent3); }
+  .achievement-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .achievement-org { font-size: 12px; color: var(--muted); }
+  .achievement-level {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .level-intl { background: rgba(245,200,66,0.1); color: #f5c842; border: 1px solid rgba(245,200,66,0.2); }
+  .level-natl { background: rgba(124,110,245,0.1); color: var(--accent); border: 1px solid rgba(124,110,245,0.2); }
+
+  /* CERTIFICATIONS */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+  .cert-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.875rem 1rem;
+    font-size: 13px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .cert-item:hover { border-color: var(--accent3); color: var(--text); }
+  .cert-issuer { font-size: 11px; color: var(--accent3); font-weight: 600; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 2rem 4rem;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 4rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .divider { margin: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">SP<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">CSE (Cyber Security) · PSNA College</div>
+    <h1>Sakthi Priya G<br><span class="line2">Security-Aware<br>Developer.</span></h1>
+    <p class="hero-desc">Aspiring software engineer passionate about combining software development with cybersecurity knowledge to build secure, intelligent, and scalable systems.</p>
+    <div class="hero-cta">
+      <a href="mailto:sakthipriyaganesh52@gmail.com" class="btn btn-primary">Get in Touch</a>
+      <a href="https://github.com/SakthiPriya1003" target="_blank" class="btn btn-outline">GitHub ↗</a>
+      <a href="https://linkedin.com/in/sakthi-priya-g" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-label">Internships</div>
+      </div>
+      <div>
+        <div class="stat-num">7<span>+</span></div>
+        <div class="stat-label">CTF Rankings</div>
+      </div>
+      <div>
+        <div class="stat-num">2<span>x</span></div>
+        <div class="stat-label">Bugcrowd HoF</div>
+      </div>
+      <div>
+        <div class="stat-num">8.27</div>
+        <div class="stat-label">CGPA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2>Who I Am</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I am a <strong>B.E. CSE (Cyber Security)</strong> student at PSNA College of Engineering and Technology (2023–2027) with a CGPA of <strong>8.27</strong>. I am passionate about bridging the gap between software development and cybersecurity.</p>
+      <p>I have hands-on experience in <strong>vulnerability assessment</strong>, <strong>full-stack development</strong>, and <strong>data analytics</strong> through internships. I actively participate in CTF competitions and have been recognized in the <strong>Bugcrowd Hall of Fame</strong> twice for responsible vulnerability disclosure.</p>
+      <p>Beyond technical skills, I lead the <strong>OWASP Student Chapter</strong> at PSNACET and serve as Convenor of the <strong>Aptitude Club</strong>, conducting sessions for 60+ students. I also enjoy playing <strong>Chess</strong> and <strong>Carrom</strong>.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-cat">Languages</div>
+        <div class="skill-items">Java, SQL, JavaScript, Python</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-items">HTML5, CSS3, React.js</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Backend & DB</div>
+        <div class="skill-items">REST APIs, MongoDB, MySQL</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Security</div>
+        <div class="skill-items">Vulnerability Assessment, OSINT, CTF</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Data & Tools</div>
+        <div class="skill-items">Python, Power BI, Git, Postman</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Core CS</div>
+        <div class="skill-items">DSA, OOP, DBMS, OS, Networks</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Work Experience</div>
+  <h2>Internships</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">Jul – Aug 2025</span>
+        <span class="timeline-company">Inspire Softech Solutions</span>
+      </div>
+      <div class="timeline-title">Data Analytics Intern</div>
+      <div class="timeline-desc">Conducted data cleaning, analysis, and visualization using Python and Power BI. Contributed to dashboard development for data-driven decision making.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">Aug – Sep 2024</span>
+        <span class="timeline-company">Octanet Services</span>
+      </div>
+      <div class="timeline-title">Python Intern</div>
+      <div class="timeline-desc">Developed a modular ATM Simulation System using Python. Strengthened core programming skills and problem-solving efficiency through structured development.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">Aug 2024</span>
+        <span class="timeline-company">Prompt Infotech</span>
+      </div>
+      <div class="timeline-title">Cybersecurity Intern</div>
+      <div class="timeline-desc">Performed vulnerability assessment and basic security analysis on applications. Gained hands-on exposure to application security fundamentals and security tooling.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Work</div>
+  <h2>Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-icon">⚙️</div>
+      <div class="project-title">Student Request Management System</div>
+      <div class="project-desc">A role-based full-stack web application to manage academic requests with secure workflow automation. Features role-based access control, structured approval routing, and real-time email notifications.</div>
+      <div class="project-tags">
+        <span class="tag">Full Stack</span>
+        <span class="tag green">REST API</span>
+        <span class="tag pink">Security</span>
+        <span class="tag">MongoDB</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🌾</div>
+      <div class="project-title">Rice Leaf Disease Detection</div>
+      <div class="project-desc">An image classification model using Swin Transformer architecture for detecting crop diseases. Co-authored research published at ICCSCE 2025, Atlantis Press — an international-level publication.</div>
+      <div class="project-tags">
+        <span class="tag">Deep Learning</span>
+        <span class="tag green">Swin Transformer</span>
+        <span class="tag pink">Published</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🏦</div>
+      <div class="project-title">ATM Simulation System</div>
+      <div class="project-desc">A modular banking application supporting withdrawal, deposit, and balance inquiry. Implemented input validation and structured logic to handle edge cases and ensure system reliability.</div>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag green">Modular Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-label">Recognition</div>
+  <h2>Achievements</h2>
+  <div class="achievements-grid">
+    <div class="achievement-card">
+      <div class="achievement-rank gold">🏆</div>
+      <div>
+        <div class="achievement-name">Bugcrowd Hall of Fame – Genius</div>
+        <div class="achievement-org">Responsible Vulnerability Disclosure</div>
+        <span class="achievement-level level-intl">International</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank gold">🏆</div>
+      <div>
+        <div class="achievement-name">Bugcrowd Hall of Fame – Telstra Health</div>
+        <div class="achievement-org">Security Vulnerability Reporting</div>
+        <span class="achievement-level level-intl">International</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank silver">3rd</div>
+      <div>
+        <div class="achievement-name">SPARC Virtual CTF 2026</div>
+        <div class="achievement-org">IEEE Signal Processing Society, BMS Institute</div>
+        <span class="achievement-level level-natl">National</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank silver">4th</div>
+      <div>
+        <div class="achievement-name">RootAccess CTF 2026</div>
+        <div class="achievement-org">REVELATION 5.0, IIEST Shibpur, West Bengal</div>
+        <span class="achievement-level level-natl">National</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank teal">57th</div>
+      <div>
+        <div class="achievement-name">Crate CTF 2025</div>
+        <div class="achievement-org">Swedish Defence Research Institute (FOI), Sweden</div>
+        <span class="achievement-level level-intl">International · 300+ teams</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank teal">Top 30</div>
+      <div>
+        <div class="achievement-name">Hacker's Gambit 2025</div>
+        <div class="achievement-org">Jaihind College of Engineering, Maharashtra</div>
+        <span class="achievement-level level-intl">International · 200+ teams</span>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-rank teal">Top 40</div>
+      <div>
+        <div class="achievement-name">ExploitX CTF: Into the Void 2025</div>
+        <div class="achievement-org">Chennai Institute of Technology, Tamil Nadu</div>
+        <span class="achievement-level level-natl">National</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Learning</div>
+  <h2>Certifications</h2>
+  <div class="certs-grid">
+    <div class="cert-item">Cybersecurity Essentials<div class="cert-issuer">Cisco Networking Academy</div></div>
+    <div class="cert-item">Introduction to Cyber Security<div class="cert-issuer">Cisco Networking Academy</div></div>
+    <div class="cert-item">Foundations of Cybersecurity<div class="cert-issuer">Coursera</div></div>
+    <div class="cert-item">Manage Security Risks<div class="cert-issuer">Coursera</div></div>
+    <div class="cert-item">Fundamentals of Information Security<div class="cert-issuer">Infosys Springboard</div></div>
+    <div class="cert-item">Cybercrime Investigations Bootcamp<div class="cert-issuer">Prompt Infotech</div></div>
+    <div class="cert-item">Java Programming<div class="cert-issuer">IIT Bombay</div></div>
+    <div class="cert-item">PHP and MySQL<div class="cert-issuer">IIT Bombay</div></div>
+    <div class="cert-item">MongoDB Basics for Students<div class="cert-issuer">MongoDB University</div></div>
+    <div class="cert-item">ns-3 Network Simulator<div class="cert-issuer">IIT Bombay</div></div>
+    <div class="cert-item">Introduction to Generative AI<div class="cert-issuer">ServiceNow</div></div>
+    <div class="cert-item">Zoho Creator Student Training<div class="cert-issuer">Zoho Young Creators Program</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-label">Let's Connect</div>
+  <h2>Get In Touch</h2>
+  <p style="color:var(--muted); max-width:480px; margin:0 auto; font-weight:300;">Open to opportunities, collaborations, and conversations about cybersecurity and software development.</p>
+  <div class="contact-links">
+    <a href="mailto:sakthipriyaganesh52@gmail.com" class="contact-link">✉ sakthipriyaganesh52@gmail.com</a>
+    <a href="https://linkedin.com/in/sakthi-priya-g" target="_blank" class="contact-link">in LinkedIn</a>
+    <a href="https://github.com/SakthiPriya1003" target="_blank" class="contact-link">⌥ GitHub</a>
+    <a href="tel:+916382687088" class="contact-link">☏ +91 6382687088</a>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & built by Sakthi Priya G · 2025</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
